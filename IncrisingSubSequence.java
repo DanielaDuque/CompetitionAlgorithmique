@@ -1,29 +1,32 @@
-#include <iostream>
-#include <math.h>
-#include <vector>
+import java.util.Scanner;
 
-using namespace std;
+public class Main {
 
-int main() {
-    int N;
-    std::cin>> N;
-//    int* sequence = new int[N];
-//    int* numbers = new int[N];
-    vector<int> numbers(N, 1);
-    vector<int> sequence(N, 1);
-    int longestSubsequence = 0;
-
-    for (int i = 0; i < N; i++) {
-        std::cin >> sequence[i] ;
-        numbers[i] = 1;
-        for (int j = 0; j < i; j++) {
-            if (sequence[j] < sequence[i]) {
-                numbers[i] = std::max(numbers[i], numbers[j] + 1);
-            }
+    static int binary_search(int [] lis, int start, int end, int val)
+    {
+        while (start <= end)
+        {
+            int middle = start + (end - start) / 2;
+            if (lis[middle] == val) return middle;
+            if (lis[middle] < val) start = middle + 1;
+            else end = middle - 1;
         }
-        longestSubsequence = std::max(longestSubsequence, numbers[i]);
+        return start;
     }
-    std::cout << longestSubsequence;
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
+        int[] sequence = new int[N];
+        int[] numbers = new int[N];
+        int longestSubsequence = 0;
 
-    return 0;
+        for (int i = 0; i < N; i++) {
+            sequence[i] = sc.nextInt();
+            numbers[i] = 1;
+            int pos = binary_search(numbers, 0, longestSubsequence - 1, sequence[i]);
+            numbers[pos] = sequence[i];
+            longestSubsequence = Math.max(longestSubsequence, pos + 1);
+        }
+        System.out.println(longestSubsequence);
+    }
 }
